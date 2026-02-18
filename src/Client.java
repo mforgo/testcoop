@@ -56,10 +56,7 @@ public class Client {
 
                 }
 
-
-
-
-
+                sc.nextLine();
 
             }
 
