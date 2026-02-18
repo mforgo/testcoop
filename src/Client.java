@@ -14,75 +14,63 @@ public class Client {
         ) {
 
 
-
-            while (true){
+            while (true) {
 
                 System.out.println("order, state or exit: ");
                 String os = sc.nextLine();
 
-                if (os.equalsIgnoreCase("order")){
+                if (os.equalsIgnoreCase("order")) {
+                    try {
+                        System.out.println("Type: ");
+                        OrderType type = OrderType.valueOf(sc.nextLine());
+                        System.out.println("Item: ");
+                        String item = sc.nextLine();
+                        System.out.println("qty: ");
+                        int qty = sc.nextInt();
 
-                    System.out.println("Type: ");
-                    OrderType type = OrderType.valueOf(sc.nextLine());
-                    System.out.println("Item: ");
-                    String item = sc.nextLine();
-                    System.out.println("qty: ");
-                    int qty = sc.nextInt();
-
-                    out.writeObject(new Order(type, item, qty));
-                    out.flush();
+                        out.writeObject(new Order(type, item, qty));
+                        out.flush();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
 
-                } else if (os.equalsIgnoreCase("state")){
+                } else if (os.equalsIgnoreCase("state")) {
+                    try {
 
-                    System.out.println("Type a request ID");
-                    int id = sc.nextInt();
+                        System.out.println("Type a request ID");
+                        int id = sc.nextInt();
 
-                    out.writeObject(new StateRequest(id));
-                    out.flush();
+                        out.writeObject(new StateRequest(id));
+                        out.flush();
 
-                    StateResponse res = (StateResponse) in.readObject();
+                        StateResponse res = (StateResponse) in.readObject();
 
-                    System.out.println(res);
+                        System.out.println(res.toString());
 
-                }else if (os.equalsIgnoreCase("exit")) {
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                } else if (os.equalsIgnoreCase("exit")) {
 
                     System.out.println("bye");
                     socket.close();
 
-                }else {
+                } else {
 
                     System.out.println("please enter valid input!");
 
                 }
 
-
-
-
-
+                sc.nextLine();
 
             }
 
 
-           /* System.out.println("Id: ");
-            int id  = sc.nextInt();
-            System.out.println("Type: ");
-            OrderType type = OrderType.valueOf(sc.nextLine());
-            System.out.println("Item: ");
-            String item = sc.nextLine();
-            System.out.println("qty: ");
-            int qty = sc.nextInt();
 
-            out.writeObject(new Order(id, type, item, qty));
-            out.flush();*/
-
-
-
-
-            //StateResponse res = (StateResponse) in.readObject();
-
-
-        } catch (IOException | ClassNotFoundException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
