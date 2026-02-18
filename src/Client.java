@@ -18,7 +18,7 @@ public class Client {
             while (true){
 
                 System.out.println("order, state or exit: ");
-                String os = sc.nextLine();
+                String os = sc.nextLine().strip();
 
                 if (os.equalsIgnoreCase("order")){
 
@@ -43,16 +43,12 @@ public class Client {
 
                     StateResponse res = (StateResponse) in.readObject();
 
-                    System.out.println(res);
+                    System.out.println(res.requestId + "; " + res.items.toString());
 
                 }else if (os.equalsIgnoreCase("exit")) {
 
                     System.out.println("bye");
                     socket.close();
-
-                }else {
-
-                    System.out.println("please enter valid input!");
 
                 }
 
