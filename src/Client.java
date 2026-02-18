@@ -22,7 +22,6 @@ public class Client {
 
                 if (os.equalsIgnoreCase("order")){
 
-
                     System.out.println("Type: ");
                     OrderType type = OrderType.valueOf(sc.nextLine());
                     System.out.println("Item: ");
@@ -36,8 +35,15 @@ public class Client {
 
                 } else if (os.equalsIgnoreCase("state")){
 
+                    System.out.println("Type a request ID");
+                    int id = sc.nextInt();
+
+                    out.writeObject(new StateRequest(id));
+                    out.flush();
 
                     StateResponse res = (StateResponse) in.readObject();
+
+                    System.out.println(res);
 
                 }else if (os.equalsIgnoreCase("exit")) {
 
