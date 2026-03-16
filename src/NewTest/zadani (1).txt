@@ -1,0 +1,18 @@
+Mini-hra treasure hunting.
+
+Min pozadavky:
+Hraci klikaji na grid (7x7), odhaluji, zda se po buttonem schovava treasure nebo nic.
+Pokud je treasure nalezen, vyskoci message-box vsem pripojenym, reset a hraje se znova.
+Pripojit a hadat muze kdokoliv kdykoliv.
+--
+
+Navrh zprav:
+Clinet: DIG|3|5 //zkus odhalit, co je na souradnici [3,5]
+
+Server:
+REVEAL|EMPTY|3|5 //rekne  (vsem), ze na 3,5 nic neni
+REVEAL|TREASURE|3|5 // rekne vsem, ze nalezeno, vygeneruje nove souradnice pro poklad a hraje znovu
+
+ZADANI:
+Napsat cely server a clienta prestavet do sitove aplikace a splnit min pozadavky.
+Pridat do odevzdani text file: vsechny zpravy, co si muzou server s klientem posilat (protokol)
