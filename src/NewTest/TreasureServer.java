@@ -3,6 +3,7 @@ package NewTest;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class TreasureServer {
     private void start() throws IOException {
         System.out.println("TreasureServer listening on port " + PORT);
         resetTreasure();
+        System.out.println(Arrays.toString(point));
         try (ServerSocket ss = new ServerSocket(PORT)) {
             while (true) {
                 Socket s = ss.accept();
@@ -46,9 +48,12 @@ public class TreasureServer {
 
             String line;
             while ((line = in.readLine()) != null) {
+                System.out.println(line);
+
                 line = line.trim();
                 if (line.startsWith("DIG")) {
                     String[] parts = line.split("\\|");
+                    System.out.println(parts.length);
                     if (parts.length != 3) {
                         out.println("ERROR|BAD-FORMAT|-1|-1");
                         continue;
@@ -57,8 +62,9 @@ public class TreasureServer {
                     int r = parseInt(parts[1]);
                     int c = parseInt(parts[2]);
 
-                    if (inBounds(r, c)) {
+                    if (!inBounds(r, c)) {
                         out.println("ERROR|BAD-FORMAT|-1|-1");
+                        System.out.println("A");
                         continue;
                     }
 
@@ -107,7 +113,7 @@ public class TreasureServer {
             for (int r = 0; r < SIZE; r++) {
                 for (int c = 0; c < SIZE; c++) {
                     if (reserved[r][c]) {
-                        out.println("RESERVED|" + r + " " + c);
+                        out.println("RESERVED|" + r + "|" + c);
                     }
                 }
             }
