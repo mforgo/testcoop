@@ -13,6 +13,7 @@ public class TreasureServer {
 
     private final boolean[][] reserved = new boolean[SIZE][SIZE];
     private final Set<PrintWriter> clientOutputs = Collections.synchronizedSet(new HashSet<>());
+    private final int[] point = new int[2];
 
     public static void main(String[] args) throws IOException {
         new TreasureServer().start();
@@ -47,20 +48,30 @@ public class TreasureServer {
                 if (line.startsWith("DIG")) {
                     String[] parts = line.split("\\|");
                     if (parts.length != 3) {
-                        out.println("ERROR|BAD-FORMAT|-1|-1|");
+                        out.println("ERROR|BAD-FORMAT|-1|-1");
                         continue;
                     }
+
                     int r = parseInt(parts[1]);
                     int c = parseInt(parts[2]);
 
+                    if (inBounds(r, c)) {
+                        out.println("ERROR|BAD-FORMAT|-1|-1");
+                        continue;
+                    }
+
                     boolean success = reserveCell(r, c);
                     if (success) {
-                        broadcast("REVEAL|" + r + "|" + c);
+                        if (!(r == point[0] && c == point[1])) {
+                            broadcast("REVEAL|EMPTY|" + r + "|" + c + "|");
+                        } else {
+                            broadcast("REVEAL|TREASURE|" + r + "|" + c);
+                        }
                     } else {
-                        out.println("ERROR|TAKEN|-1|-1|");
+                        out.println("ERROR|TAKEN|-1|-1");
                     }
                 } else {
-                    out.println("ERROR|UNKNOW-COMMAND|-1|-1|");
+                    out.println("ERROR|UNKNOW-COMMAND|-1|-1");
                 }
             }
 
@@ -93,7 +104,7 @@ public class TreasureServer {
             for (int r = 0; r < SIZE; r++) {
                 for (int c = 0; c < SIZE; c++) {
                     if (reserved[r][c]) {
-                        out.println("RESERVED " + r + " " + c);
+                        out.println("RESERVED|" + r + " " + c);
                     }
                 }
             }
