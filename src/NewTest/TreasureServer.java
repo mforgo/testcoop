@@ -15,12 +15,14 @@ public class TreasureServer {
     private final Set<PrintWriter> clientOutputs = Collections.synchronizedSet(new HashSet<>());
     private final int[] point = new int[2];
 
+
     public static void main(String[] args) throws IOException {
         new TreasureServer().start();
     }
 
     private void start() throws IOException {
         System.out.println("TreasureServer listening on port " + PORT);
+        resetTreasure();
         try (ServerSocket ss = new ServerSocket(PORT)) {
             while (true) {
                 Socket s = ss.accept();
@@ -66,6 +68,7 @@ public class TreasureServer {
                             broadcast("REVEAL|EMPTY|" + r + "|" + c + "|");
                         } else {
                             broadcast("REVEAL|TREASURE|" + r + "|" + c);
+                            resetTreasure();
                         }
                     } else {
                         out.println("ERROR|TAKEN|-1|-1");
@@ -117,5 +120,10 @@ public class TreasureServer {
                 out.println(msg);
             }
         }
+    }
+
+    private void resetTreasure(){
+        point[0] = (int)(Math.random()*7);
+        point[1] = (int)(Math.random()*7);
     }
 }
