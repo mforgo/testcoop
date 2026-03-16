@@ -1,3 +1,5 @@
+package Orders;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,19 +10,19 @@ public class Server {
     private static final Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
 
     public static void main(String[] args) {
-        System.out.println("Server spoustim na portu " + PORT + "...");
+        System.out.println("Orders.Server spoustim na portu " + PORT + "...");
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("Client: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+                System.out.println("Orders.Client: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
                 // pro kazdeho clienta vlastni thread...
                 new ClientHandler(clientSocket).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Server konci...");
+        System.out.println("Orders.Server konci...");
     }
 
     private static class ClientHandler extends Thread {
@@ -65,8 +67,8 @@ public class Server {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             } finally {
-                // Client disconnect
-                System.out.println("Client se odpojil: " + socket.getInetAddress() + ":" + socket.getPort());
+                // Orders.Client disconnect
+                System.out.println("Orders.Client se odpojil: " + socket.getInetAddress() + ":" + socket.getPort());
                 try {
                     socket.close();
                 } catch (IOException e) {

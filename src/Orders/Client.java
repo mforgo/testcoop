@@ -1,3 +1,5 @@
+package Orders;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -64,19 +66,19 @@ public class Client {
            /* System.out.println("Id: ");
             int id  = sc.nextInt();
             System.out.println("Type: ");
-            OrderType type = OrderType.valueOf(sc.nextLine());
+            Orders.OrderType type = Orders.OrderType.valueOf(sc.nextLine());
             System.out.println("Item: ");
             String item = sc.nextLine();
             System.out.println("qty: ");
             int qty = sc.nextInt();
 
-            out.writeObject(new Order(id, type, item, qty));
+            out.writeObject(new Orders.Order(id, type, item, qty));
             out.flush();*/
 
 
 
 
-            //StateResponse res = (StateResponse) in.readObject();
+            //Orders.StateResponse res = (Orders.StateResponse) in.readObject();
 
 
         } catch (IOException | ClassNotFoundException e){

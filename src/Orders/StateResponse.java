@@ -1,8 +1,7 @@
+package Orders;
+
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 
 public final class StateResponse implements Serializable {
     private static final long serialVersionUID = 1L;
