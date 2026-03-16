@@ -1,5 +1,4 @@
 Client
-Navrh zprav:
 Clinet: DIG|3|5 //zkus odhalit, co je na souradnici [3,5]
 
 Server:
