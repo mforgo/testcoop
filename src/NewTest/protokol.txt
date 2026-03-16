@@ -1,0 +1,10 @@
+Client
+Navrh zprav:
+Clinet: DIG|3|5 //zkus odhalit, co je na souradnici [3,5]
+
+Server:
+REVEAL|EMPTY|3|5 //rekne  (vsem), ze na 3,5 nic neni
+REVEAL|TREASURE|3|5 // rekne vsem, ze nalezeno, vygeneruje nove souradnice pro poklad a hraje znovu
+ERROR|TAKEN|-1|-1|
+ERROR|OUT-OF-BOUNDS|-1|-1|
+ERROR|BADFORMAT|-1|-1|

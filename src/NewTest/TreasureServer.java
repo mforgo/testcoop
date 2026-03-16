@@ -7,19 +7,19 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GridServer {
+public class TreasureServer {
     private static final int PORT = 5555;
-    private static final int SIZE = 10;
+    private static final int SIZE = 7;
 
     private final boolean[][] reserved = new boolean[SIZE][SIZE];
     private final Set<PrintWriter> clientOutputs = Collections.synchronizedSet(new HashSet<>());
 
     public static void main(String[] args) throws IOException {
-        new GridServer().start();
+        new TreasureServer().start();
     }
 
     private void start() throws IOException {
-        System.out.println("GridServer listening on port " + PORT);
+        System.out.println("TreasureServer listening on port " + PORT);
         try (ServerSocket ss = new ServerSocket(PORT)) {
             while (true) {
                 Socket s = ss.accept();
@@ -44,28 +44,23 @@ public class GridServer {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();
-                if (line.startsWith("RESERVE")) {
-                    String[] parts = line.split("\\s+");
+                if (line.startsWith("DIG")) {
+                    String[] parts = line.split("\\|");
                     if (parts.length != 3) {
-                        out.println("ERROR BadFormat");
+                        out.println("ERROR|BAD-FORMAT|-1|-1|");
                         continue;
                     }
                     int r = parseInt(parts[1]);
                     int c = parseInt(parts[2]);
 
-                    if (!inBounds(r, c)) {
-                        out.println("ERROR OutOfBounds");
-                        continue;
-                    }
-
                     boolean success = reserveCell(r, c);
                     if (success) {
-                        broadcast("RESERVED " + r + " " + c);
+                        broadcast("REVEAL|" + r + "|" + c);
                     } else {
-                        out.println("ERROR Taken");
+                        out.println("ERROR|TAKEN|-1|-1|");
                     }
                 } else {
-                    out.println("ERROR UnknownCommand");
+                    out.println("ERROR|UNKNOW-COMMAND|-1|-1|");
                 }
             }
 
